@@ -12,28 +12,58 @@ description: "Intermediate R is the next stop on your journey in mastering the R
 ```{r setup, include=FALSE}
 library(learnr)
 library(gradethis)
+library(digest)
 gradethis_setup()
 ```
 
-## Conditionals and control flow {data-progressive=TRUE}
+# Intermediate R
+
+Intermediate R is the next stop on your journey in mastering the R programming language. In this R training, you will learn about conditional statements, loops, and functions to power your own R scripts. Next, make your R code more efficient and readable using the apply functions. This course will allow you to take the next step in advancing your overall knowledge and capabilities while programming in R.
+
+## Chap. 1: Conditionals and control flow {data-progressive=TRUE}
 
 To be TRUE or not be TRUE, that's the question. In this chapter you'll learn about relational operators to see how R objects compare and logical operators to combine logicals. Next, you'll use this knowledge to build conditional statements.
 
-<div align="middle">
+### Equality and inequality
 
-> **Document:** ["Slides - Conditional and control flows"](./Slides/Chapter 01 - Conditional and control flows.pdf)
+The most basic form of comparison is equality, denoted by "double equals", or `==`. Note the difference here between `==` and `=`: 
 
-</div>
+ - A single equal `=` is equivalent to the assignment operator `<-`.
+ - A double equal `==` denotes a comparison.
 
-<div align="middle">
+When you see the expression `a == b`, think "Is a equal to b?"  The answer will be a Boolean - either `TRUE` (yes) or `FALSE` (no).
 
-<!-- <video width="80%" controls src="./Videos/Chapter 01 - Lecture 01 - Relational operators.mp4" type="video/mp4"/> -->
+An inequality comparison is denoted by `!=`. If you see the expression `a != b`, read it as "Is a not equal to b?" The answer, as with the equality comparison, is a Boolean.
 
-</div>
+Here are some examples comparing different data types for equality and inequality:
 
-### Equality
+#### Data type: Boolean
 
-The most basic form of comparison is equality. Let's briefly recap its syntax. The following statements all evaluate to `TRUE` (feel free to run the code).
+```{r}
+TRUE == TRUE
+TRUE != TRUE
+```
+
+```{r}
+TRUE == FALSE
+TRUE != FALSE
+```
+
+#### Data type: String
+
+```{r}
+"hello" == "goodbye"
+"hello" != "goodbye"
+```
+
+#### Data type: Numeric
+
+```{r}
+3 == 2
+3 != 2
+```
+
+The following statements all evaluate to `TRUE` (feel free to run the code).
 
 ```{r truthiness, exercise=TRUE}
 3 == (2 + 1)
@@ -48,7 +78,6 @@ Notice from the last expression that R is case sensitive: "R" is not equal to "r
 *Write R code to see if* `TRUE` *equals* `FALSE`*.*
 
 ```{r truthiness-ex-1, exercise=TRUE}
-# Comparison of logicals
 
 ```
 
@@ -107,15 +136,33 @@ grade_code("Since `TRUE` coerces to `1` under the hood, `TRUE == 1` evaluates to
 
 ### Greater and less than
 
-Apart from equality operators, we also introduced the less than and greater than operators: `<` and `>`. You can also add an equal sign to express less than or equal to or greater than or equal to, respectively. Have a look at the following R expressions, that all evaluate to `FALSE`:
+Apart from equality operators, we also introduce the less than and greater than operators: `<` and `>`. You can also add an equal sign to express less than or equal to or greater than or equal to, respectively. As with the equality and inequality operators, the result is a Boolean.
+
+Here are some examples:
+```{r}
+3 < 5
+3 > 5
+5 >= 3
+3 >= 3
+```
+
+When comparing strings, alphabetical ordering is enforced!
+```{r}
+"Hello" > "Goodbye"
+```
+
+In the case of Booleans, TRUE is understood as 1, while FALSE is coerced to 0.
+```{r}
+TRUE < FALSE
+```
+
+Have a look at the following R expressions, that all evaluate to `FALSE` (feel free to change them to see what happens):
 
 ```{r grtorequ, exercise=TRUE}
 (1 + 2) > 4
 "dog" < "Cats"
 TRUE <= FALSE
 ```
-
-Remember that for string comparison, R determines the greater than relationship based on alphabetical order. Also, keep in mind that `TRUE` corresponds to `1` in R, and `FALSE` coerces to `0` behind the scenes. Therefore, `FALSE < TRUE` is `TRUE`.
 
 #### Exercise 1: Comparison of numerics
 *Write R code to check whether* `-6 * 5 + 2` *is greater than or equal to* `-10 + 1`*.*
@@ -148,7 +195,7 @@ grade_code()
 ```
 
 #### Exercise 3: Comparison of logicals
-*Write R code to check whether* `TRUE` *is greater than* `FALSE`*.*
+*Write R code to check whether* `TRUE` *is greater than* `FALSE`*. Before you run the code, take an educated guess at the answer!*
 
 ```{r grtorequ-ex-3, exercise=TRUE}
 
@@ -166,21 +213,36 @@ grade_code("Make sure to have a look at the console output to see if R returns t
 
 You are already aware that R is very good with vectors. Without having to change anything about the syntax, R's relational operators also work on vectors.
 
-Let's go back to the example that was started in the video. You want to figure out whether your activity on social media platforms have paid off and decide to look at your results for LinkedIn and Facebook. The code below initializes the vectors `linkedin` and `facebook`. Each of the vectors contains the number of profile views your LinkedIn and Facebook profiles had over the last seven days.
+To illustrate, suppose you want to figure out whether your activity on social media platforms have paid off and decide to look at your results for LinkedIn and Facebook. The code below initializes the vectors `linkedin` and `facebook`. Each of the vectors contains the number of profile views your LinkedIn and Facebook profiles had over the last seven days. 
 
 ```{r compare-vecs-setup}
-# The linkedin and facebook vectors have already been created for you
 linkedin <- c(16, 9, 13, 5, 2, 17, 14)
 facebook <- c(17, 7, 5, 16, 8, 13, 14)
 ```
 
+First, let's print the `linkedin` vector, then on the next line see when your LinkedIn activity was greater than 10.
+```{r}
+linkedin
+linkedin > 10
+```
+
+Notice that the resulting comparison vector is a Boolean vector of the same length. The indices or positions that are `TRUE` denote days when your LinkedIn activity was greater than 10. The comparison operators will perform the comparison element-by-element.
+
+If two vectors are of the same length, you can also compare a vector to another vector. This allows us to ask a question like "On what days was my LinkedIn activity greater than or equal to my Facebook activity?" Here's the code for that comparison:
+
+```{r}
+facebook <= linkedin
+```
+
+Again, you get a Boolean vector of the same length as the two vectors such that the ith value of the resulting vector is equal to `facebook[i] <= linkedin[i]`.
+
 For the following exercises, the vectors `linkedin` and `facebook` will be already initialized and available in memory.
 
 #### Exercise 1: Popular days
-*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following questions: On which days did the number of LinkedIn profile views exceed 15?*
+*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following question: On which days did the number of LinkedIn profile views exceed 15?*
 
 ```{r compare-vecs-ex-1, exercise=TRUE, exercise.setup="compare-vecs-setup"}
-
+# The linkedin and facebook vectors have already been created for you
 ```
 
 ```{r compare-vecs-ex-1-solution}
@@ -192,7 +254,7 @@ grade_code()
 ```
 
 #### Exercise 2: Quiet days 
-*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following questions: When was your LinkedIn profile viewed only 5 times or fewer?*
+*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following question: When was your LinkedIn profile viewed only 5 times or fewer?*
 
 ```{r compare-vecs-ex-2, exercise=TRUE, exercise.setup="compare-vecs-setup"}
 
@@ -207,7 +269,7 @@ grade_code()
 ```
 
 #### Exercise 3: LinkedIn more popular than Facebook
-*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following questions: When was your LinkedIn profile visited more often than your Facebook profile?*
+*Using relational operators, find a logical answer, i.e.* `TRUE` *or* `FALSE`*, for the following question: When was your LinkedIn profile visited more often than your Facebook profile?*
 
 ```{r compare-vecs-ex-3, exercise=TRUE, exercise.setup="compare-vecs-setup"}
 
@@ -232,6 +294,7 @@ Instead of in vectors (as in the previous exercise), the LinkedIn and Facebook d
 linkedin <- c(16, 9, 13, 5, 2, 17, 14)
 facebook <- c(17, 7, 5, 16, 8, 13, 14)
 views <- matrix(c(linkedin, facebook), nrow = 2, byrow = TRUE)
+views
 ```
 
 #### Exercise 1: When does views equal 13?
@@ -264,13 +327,67 @@ views <= 14
 grade_code("This exercise concludes the part on comparators. Now that you know how to query the relation between R objects, the next step will be to use the results to alter the behavior of your programs. Find out all about that in the next video!")
 ```
 
-<div align="middle">
+### Logical Operators: AND (`&`), OR (`|`) and NOT (`!`)
 
-<!-- <video width="80%" controls src="./Videos/Chapter 01 - Lecture 02 - Logical operators.mp4" type="video/mp4" /> -->
+Whereas relational operators (`<`, `>`, `<=`, `>=`, `==`, `!=`) compare two data types and return a Boolean, logical operators (such as AND, OR, and NOT) take two Booleans and return another Boolean. The notation in R for these logical operators are:
 
-</div>
+ - `&` is the AND operator
+ - `|` is the OR operator
+ - `!` is the NOT operator
+ 
+You already saw the `!` notation with `!=`, which is read "not equals".
 
-### & and |
+The logical rules for these operators are:
+
+*A AND B is TRUE if and only if A is TRUE and B is TRUE.  Otherwise, A AND B is FALSE*.
+ 
+```{r}
+TRUE & TRUE
+TRUE & FALSE
+FALSE & TRUE
+FALSE & FALSE
+```
+
+*A OR B is TRUE if and only if either A is TRUE or B is TRUE.  Otherwise, A OR B is FALSE*
+ 
+```{r}
+TRUE | TRUE
+TRUE | FALSE
+FALSE | TRUE
+FALSE | FALSE
+```
+
+*NOT FALSE is TRUE and NOT TRUE is FALSE, i.e. the NOT operator simply results in the opposite.*
+
+```{r}
+!FALSE
+!TRUE
+```
+
+You can combine these logical operators with the relational operators to make more complicated expressions.
+
+```{r}
+x <- 12
+x > 5 & x < 15 # Is x in interval (5, 15)?
+
+x <- 17
+x > 5 & x < 15
+
+y <- 4
+y < 5 | y > 15 # Is y in intervals (-Inf, 5) or (15, Inf)?
+
+y <- 14
+y < 5 | y > 15
+```
+
+Note that all these expressions are equivalent:
+```{r}
+x <- 12
+
+!(x > 5 & x < 15)
+!(x > 5) | !(x < 15)
+x <= 5 | x >= 15
+```
 
 Before you work your way through the next exercises, have a look at the following R expressions. All of them will evaluate to `TRUE`:
 
@@ -321,9 +438,15 @@ last > 15 & last <= 20
 grade_code("Have one last look at the console before proceeding; do the results of the different expressions make sense?")
 ```
 
-### & and | (2)
+### Logical Operators: Vectorized!
 
-Like relational operators, logical operators work perfectly fine with vectors and matrices.
+Like relational operators, logical operators work perfectly fine with vectors and matrices. The `&`, `|`, and `!` operators work on vectors and matrices "element-wise". For example, if `A` and `B` are vectors and `C == A & B`, then `C[i] == A[i] & B[i]`. What do you think you would get from the following? Take an educated guess before running the code!
+
+```{r vec-op, exercise=TRUE}
+c(TRUE, TRUE, FALSE) & c(TRUE, FALSE, FALSE)
+c(TRUE, TRUE, FALSE) | c(TRUE, FALSE, FALSE)
+!c(TRUE, TRUE, FALSE)
+```
 
 Both the vectors `linkedin` and `facebook` are available again. Also a matrix - `views` - has been defined; its first and second row correspond to the `linkedin` and `facebook` vectors, respectively. Ready for some advanced queries to gain more insights into your social outreach?
 
@@ -350,7 +473,7 @@ grade_code("You'll have noticed how easy it is to use logical operators to vecto
 ```
 
 #### Exercise 2: When were one or both visited at least 12 times?
-*When did LinkedIn views exceed 10 and did Facebook views fail to reach 10 for a particular day? Use the* `linkedin` *and* `facebook` *vectors.*
+*When were one or both of your LinkedIn and Facebook profiles visited at least 12 times?*
 
 ```{r and-or-vec-mat-ex-2, exercise=TRUE, exercise.setup="and-or-vec-mat-setup"}
 
@@ -495,13 +618,19 @@ second <- li_df[, 2]
 ```
 
 ```{r blend-ex-1-check}
-grade_code()
+grade_result(
+  pass_if(~identical(second, li_df[, 2]))
+)
 ```
 
 #### Exercise 2: Build a logical vector, TRUE if value in second is extreme: extremes
 *Use* `second` *to create a logical vector, that contains* `TRUE` *if the corresponding number of views is strictly greater than 25 or strictly lower than 5 and* `FALSE` *otherwise. Store this logical vector as* `extremes`*.*
 
-```{r blend-ex-2, exercise=TRUE, exercise.setup="blend-setup"}
+```{r blend-ex-2-setup, echo=FALSE}
+second <- li_df[, 2]
+```
+
+```{r blend-ex-2, exercise=TRUE, exercise.setup="blend-ex-2-setup"}
 
 ```
 
@@ -510,13 +639,20 @@ extremes <- second > 25 | second < 5
 ```
 
 ```{r blend-ex-2-check}
-grade_code()
+grade_result(
+  pass_if(~identical(extremes, second > 25 | second < 5))
+)
 ```
 
 #### Exercise 3: Count the number of TRUEs in extremes
-*Use* `second` *to create a logical vector, that contains* `TRUE` *if the corresponding number of views is strictly greater than 25 or strictly lower than 5 and* `FALSE` *otherwise. Store this logical vector in a new variable named* `extremes`*.*
+*Use* `sum()` *on the* `extremes` *vector to calculate the number of* `TRUE`*s in extremes (i.e. to calculate the number of employees that are either very popular or very low-profile). Simply print this number to the console.*
 
-```{r blend-ex-3, exercise=TRUE, exercise.setup="blend-setup"}
+```{r blend-ex-3-setup, echo=FALSE}
+second <- li_df[, 2]
+extremes <- second > 25 | second < 5
+```
+
+```{r blend-ex-3, exercise=TRUE, exercise.setup="blend-ex-3-setup"}
 
 ```
 
@@ -525,7 +661,9 @@ sum(extremes)
 ```
 
 ```{r blend-ex-3-check}
-grade_code()
+grade_result(
+  pass_if(~identical(.result, sum(extremes)))
+)
 ```
 
 #### Challenge: Solve it with a one-liner
@@ -540,22 +678,22 @@ sum(li_df[, 2] > 25 | li_df[, 2] < 5)
 ```
 
 ```{r blend-ex-4-check}
-grade_code("This one liner illustrates that you may or may not need to store the second column as an intermediate variable if you only need to use it once. Head over to the next video and learn how relational and logical operators can be used to alter the flow of your R scripts.")
+grade_code("This one liner illustrates that you may or may not need to store the second column as an intermediate variable if you only need to use it once. Head over to the next section and learn how relational and logical operators can be used to alter the flow of your R scripts.")
 ```
 
-<div align="middle">
+### Conditional statements: The if statement
 
-<!-- <video width="80%" controls src="./Videos/Chapter 01 - Lecture 03 - Conditional statements.mp4" type="video/mp4" /> -->
-
-</div>
-
-### The if statement
-
-Before diving into some exercises on the `if` statement, have another look at its syntax:
-
-```
+Sometimes you have some code that should only be run if a certain condition is met. An *if statement* achieves this, with its syntax in R given by:
+```{r, eval=FALSE}
 if (condition) {
-  expr
+  # Conditional code that runs only if condition is TRUE
+}
+```
+Run the following code, then change the value of `x` so that the conditional code does not run.
+```{r neg-ex, exercise=TRUE}
+x <- -3
+if (x < 0) {
+  print("x is a negative number")
 }
 ```
 
@@ -595,19 +733,34 @@ grade_code("Try to see what happens if you change the `medium` and `num_views` v
 
 ### Add an else
 
-You can only use an `else` statement in combination with an `if` statement. The `else` statement does not require a condition; its corresponding code is simply run if all of the preceding conditions in the control structure are `FALSE`. Here's a recipe for its usage:
-
+You can only use an `else` statement in combination with an `if` statement. The `else` statement does not require a condition; its corresponding code is simply run if all of the preceding conditions in the control structure are `FALSE`. Let's look at the previous example again that printed out `x is a negative number` when `x` was negative:
+```{r}
+x <- -3
+if (x < 0) {
+  print("x is a negative number")
+}
+```
+When `x` is non-negative, nothing gets printed. Wouldn't it be better to print something in this case? This is where the `else` statement comes into play. Here is its syntax:
 ```{r, eval=FALSE}
 if (condition) {
-  expr1
+  # Run this code if condition is TRUE
 } else {
-  expr2
+  # Run this code if condition is FALSE
+}
+```
+Now we have another piece of code that gets run only when `condition` is FALSE! Here's the example above with relavent information printed when `x` is non-negative. Run the code, then change the value of `x` so that the code in the `else` block is run.
+```{r else-ex, exercise=TRUE}
+x <- -3
+if (x < 0) {
+  print("x is a negative number")
+} else {
+  print("x is either a positive number or zero")
 }
 ```
 
 *It's important that the* `else` *keyword comes on the same line as the closing bracket of the* `if` *part!*
 
-Both `if` statements that you coded in the previous exercises are already available in the editor. It's now up to you to extend them with the appropriate `else` statements!
+In the next exercises, both `if` statements that you coded in previous exercises will be available in the editor. It's now up to you to extend them with the appropriate `else` statements!
 
 We'll start with the same setup as before:
 ```{r else-setup}
@@ -620,7 +773,9 @@ num_views <- 14
 *Add an else statement such that "Unknown medium" gets printed out to the console when the if-condition on* `medium` *does not hold.*
 
 ```{r else-ex-1, exercise=TRUE, exercise.setup="else-setup"}
-
+if (medium == "LinkedIn") {
+  print("Showing LinkedIn information")
+}
 ```
 
 ```{r else-ex-1-solution}
@@ -639,7 +794,9 @@ grade_code()
 *Add an else statement such that R prints out "Try to be more visible!" when the if-condition on* `num_views` *is not met.*
 
 ```{r else-ex-2, exercise=TRUE, exercise.setup="else-setup"}
-
+if (num_views > 15) {
+  print("You're popular!")
+}
 ```
 
 ```{r else-ex-2-solution}
@@ -656,23 +813,65 @@ grade_code("You also had Facebook information available, remember? Time to add s
 
 ### Customize further: else if
 
-The `else if` statement allows you to further customize your control structure. You can add as many `else if` statements as you like. Keep in mind that R ignores the remainder of the control structure once a condition has been found that is `TRUE` and the corresponding expressions have been executed. Here's an overview of the syntax to freshen your memory:
+The `else if` statement allows you to further customize your control structure. You can add as many `else if` statements as you like. Keep in mind that R ignores the remainder of the control structure once a condition has been found that is `TRUE` and the corresponding expressions have been executed. Here's an overview of the syntax:
 
 ```{r, eval=FALSE}
 if (condition1) {
-  expr1
+  # Run this code if condition1 is TRUE
 } else if (condition2) {
-  expr2
+  # Run this code if condition1 is FALSE and condition2 is TRUE
 } else if (condition3) {
-  expr3
+  # Run this code if both condition1 and condition2 are FALSE but condition3 is TRUE
 } else {
-  expr4
+  # Run this code otherwise, i.e. all of the above conditions are FALSE
+}
+```
+Using our previous example checking the values of `x`, what if we wanted to separate out the case when `x` was zero? This is an example where the `else if` statement can be helpful. Here's the example - as before, run it and change the value of `x` so that each case occurs (i.e. x is positive, zero, and negative). *Note: You may get an error that says "unexpected symbol 'if'" - this is a bug! Please ignore it.*
+```{r else-if-ex, exercise=TRUE}
+x <- -3
+if (x < 0) {
+  print("x is a negative number")
+} else if (x == 0) {
+  print("x is zero")
+} else {
+  print("x is either a positive number or zero")
+}
+```
+*It's important that the* `else if` *keywords comes on the same line as the closing bracket of the previous part of the control construct!*
+
+Let's do one more example before jumping into some exercises. This example introduces you to the `%%` operator, which is called the *modulo* or *remainder* operator. Remember your fractions? Here's a quick refresher:
+$$
+\frac{5}{3} = 1 \ \textrm{with remainder} \ 2 \ = 1\frac{2}{3}
+$$
+The modulo, or remainder, operator `%%` gives us the remainder after division! Run the code below illustrating the example above - feel free to try other numbers!
+```{r modulo-ex, exercise=TRUE}
+5 %% 3
+```
+*Note that you can use the modulo operator to test if a number is divisible by another number. If a number x is divisible by another number y, then the remainder will be 0. Change the two numbers in the code editor below so that the remainder is zero.*
+```{r modulo-ex-other, exercise=TRUE}
+5 %% 3
+```
+
+```{r modulo-ex-other-check}
+grade_result(
+  pass_if(~identical(.result, 0))
+)
+```
+
+Here is one more example showing combining the modulo operator with a if/else if/else code block. Again, feel free to change `x` to see how the results changes.
+```{r if-else-elseif-ex, exercise=TRUE}
+x <- 6
+
+if (x %% 2 == 0) {
+  print("x is divisible by 2")
+} else if (x %% 3 == 0) {
+  print("x is divisible by 3")
+} else {
+  print("x is not divisible by 2 nor by 3...")
 }
 ```
 
-*Again, it's important that the* `else if` *keywords comes on the same line as the closing bracket of the previous part of the control construct!*
-
-We start again with the following variables pre-defined:
+Time for some more exercises! We start again with the following variables pre-defined:
 ```{r else-if-setup}
 # Variables related to your last day of recordings
 medium <- "LinkedIn"
@@ -801,40 +1000,48 @@ grade_code("Feel free to play around some more with your solution by changing th
 
 **You have finished the chapter "Conditionals and control flow"!**
 
-## Loops
+## Chap. 2: Loops {data-progressive=TRUE}
 
-Loops can come in handy on numerous occasions. While loops are like repeated if statements; the for loop is designed to iterate over all elements in a sequence. Learn all about them in this chapter.
-
-<div align="middle">
-
-> **Document:** ["Slides - Loops"](./Slides/Chapter 02 - Loops.pdf)
-
-</div>
-
-<div align="middle">
-
-<video width="80%" controls src="./Videos/Chapter 02 - Lecture 01 - While loop.mp4" type="video/mp4"/>
-
-</div>
+Loops can come in handy on numerous occasions. `while` loops are like repeated if statements; the `for` loop is designed to iterate over all elements in a sequence. Learn all about them in this chapter.
 
 ### Write a while loop
 
-Let's get you started with building a `while` loop from the ground up. Have another look at its recipe:
-
+`while` loops consist of a condition and a code block, just like an `if` statement. In `while` loops, however, the code block gets run *as long as* the condition is TRUE. Here's the R syntax for a `while` loop.
 ```{r, eval=FALSE}
 while (condition) {
-  expr
+  # Run this code block while the condition is TRUE
 }
 ```
+*Note: The code block will run over and over and over ... again until condition becomes FALSE. Thus, something must change within the code block that can change the condition from TRUE to FALSE. If not, then you are guaranteed to have an infinite loop!*
 
-Remember that the `condition` part of this recipe should become `FALSE` at some point during the execution. Otherwise, the `while` loop will go on indefinitely.  **If the "Run Code" button has a spinning icon, it is likely you are stuck in an infinite loop.  It will reset after about 30 seconds.**
+No programmer makes it through loops unscathed. At some point, you will have an infinite loop occur. Don't worry - the world doesn't implode and your computer will be fine. In this tutorial, if you accidentally have an infinite loop, the "Run Code" button will have a spinning icon for about 30 seconds, then the process will be terminated. Let's go ahead and get your first infinite loop out of the way to show you it isn't the end of the world. Run the following infinite loop.
+```{r infinite-loop, exercise=TRUE}
+while (TRUE) {
+  # I'm an infinite loop. Somebody stop me!!!
+}
+```
+Here's an example that will not have an infinite loop. Try to guess how many times the code block within the loop will run.
+```{r finite-loop, exercise=TRUE}
+ctr <- 1
+
+while (ctr <= 7) {
+  print(paste("ctr is set to", ctr))
+  ctr <- ctr + 1
+}
+
+ctr # What is ctr when the loop is complete?
+```
+
+Remember: the `condition` part of this recipe should become `FALSE` at some point during the execution. Otherwise, the `while` loop will go on indefinitely.
+
+Time for some exercises!
 
 #### Exercise: Write a while loop
 *Have a look at the code below; it initializes the* `speed` *variables and already provides a* `while` *loop template to get you started. Code a* `while` *loop with the following characteristics:*
 
 * *The condition of the* `while` *loop should check if* `speed` *is higher than 30.*
 * *Inside the body of the* `while` *loop, print out* `"Slow down!"`*.*
-* *Inside the body of the* `while` *loop, decrease the* `speed` *by 7 units. This step is crucial; otherwise your* `while` *loop will never stop.*
+* *Inside the body of the* `while` *loop, decrease the* `speed` *by 7 units. This step is crucial; otherwise your* `while` *loop will go to infinity and beyond!*
 
 ```{r loop-ex, exercise=TRUE}
 # Initialize the speed variable
@@ -915,9 +1122,22 @@ grade_code("To further improve our driver assistant model, head over to the next
 
 ### Stop the while loop with break
 
-There are some very rare situations in which severe speeding is necessary: what if a hurricane is approaching and you have to get away as quickly as possible? You don't want the driver's assistant sending you speeding notifications in that scenario, right?
+There is a `break` command that can "break" you out of the loop, even if the `while` condition is not TRUE. **Before you run the code below, guess how many times a result is printed.**
+```{r break-example, exercise=TRUE}
+ctr <- 1
 
-This seems like a great opportunity to include the `break` statement in the `while` loop you've been working on. Remember that the `break` statement is a control statement. When R encounters it, the `while` loop is abandoned completely.
+while (ctr <= 7) {
+  if (ctr %% 5 == 0) {
+    break # Break out of loop if ctr is divisible by 5
+  }
+  print(paste("ctr is set to", ctr))
+  ctr <- ctr + 1
+}
+```
+
+Getting back to the previous example, there are some very rare situations in which severe speeding is necessary: what if a hurricane is approaching and you have to get away as quickly as possible? You don't want the driver's assistant sending you speeding notifications in that scenario, right?
+
+This seems like a great opportunity to include the `break` statement in the `while` loop you've been working on. The `break` statement is a control statement. When R encounters it, the `while` loop is abandoned completely.
 
 #### Exercise: Stop the while loop with break
 *Adapt the* `while` *loop such that it is abandoned when the* `speed` *of the vehicle is greater than 80. This time, the* `speed` *variable has been initialized to 88; keep it that way.*
@@ -995,8 +1215,8 @@ i <- 1
 
 # Code the while loop
 while (i <= 10) {
-  print(i * 3)
-  if (i * 3 %% 8 == 0) {
+  print(3 * i)
+  if (3 * i %% 8 == 0) {
     break
   }
   i <- i + 1
@@ -1004,32 +1224,123 @@ while (i <= 10) {
 ```
 
 ```{r while-scratch-ex-check}
-grade_code("Head over to the next video!")
+grade_result(
+  pass_if(~identical(i, 8))
+)
 ```
 
-<div align="middle">
+### For loops
 
-<video width="80%" controls src="./Videos/Chapter 02 - Lecture 02 - For loop.mp4" type="video/mp4"/>
+As mentioned above, the `for` loop is useful to repeat a code block for every index or value in a vector or list. The `for` loop has the following syntax in R.
+```{r, eval=FALSE}
+for (var in seq) {
+  # Run this code block for every var in the seq vector
+}
+```
 
-</div>
+#### Looping over a vector
 
-### Loop over a vector
+Here's a working example of looping over a vector. If you run the code, every city in the `cities` vector will be printed on its own line.
+```{r city-for-loop, exercise=TRUE}
+cities <- c("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
 
-In the previous video, we told you about two different strategies for using the for loop. To refresh your memory, consider the following loops that are equivalent in R:
+for (city in cities) {
+  print(city)
+}
+```
+The `city` variable in the `for` loop above is sometimes called a **dummy variable**.
 
+#### Looping over a list
+
+You can also use a `for` loop to loop over a list. Note that the only change in the code below is changing the concatenation function `c` to the list creation function `list`.
+```{r city-list-for-loop}
+cities <- list("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
+
+for (city in cities) {
+  print(city)
+}
+```
+
+#### Breaking out of a for loop
+
+Just as you can use a `break` statement to prematurely break out of a `while` loop, you can use a `break` statement to prematurely break out of a `for` loop as well. Guess when the following code will stop printing.
+```{r break-for-loop, exercise=TRUE}
+cities <- list("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
+
+for (city in cities) {
+  if (nchar(city) == 6) {
+    break # This will break the loop if the number of characters in city is 6
+  }
+  print(city)
+}
+```
+
+#### Skipping values in a for loop
+
+Sometimes, instead of breaking out of a loop when a condition is met, you just want to make sure the code block is not run when a certain condition is met, *but you want to continue the loop*. This is where the `next` statement comes into play. What do you think the output will be for the following code?
+```{r next-for-loop-ex, exercise=TRUE}
+cities <- list("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
+
+for (city in cities) {
+  if (nchar(city) == 6) {
+    next # skip to next iteration
+  }
+  print(city)
+}
+```
+
+It looks like London is not printed! This code will skip ALL cities that consist of 6 characters. To test this, add another city in the list above that consists of 6 characters - it shouldn't be printed when you run the code.
+
+#### For loops (version 2): Looping with indices instead of values
+
+In version 1 of `for` loops above, we iterated over the **values** of vectors and lists. In version 2 of `for` loops, we'll iterate over the **indices** of vectors and lists. Here's the equivalent `for` loop that iterates over the cities, but uses the indices instead.
+```{r index-for-loop-ex}
+cities <- c("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
+
+for (i in 1:length(cities)) { # 1:6 = c(1,2,3,4,5,6)
+  print(cities[i])
+}
+```
+Note that inside the code block, you refer to the variable `i` to get the current index in the loop, and to get the value at index `i` you need to use the subsetted value of the `cities` vector given by `cities[i]`.
+
+This version of the `for` loop is particularly helpful when the code in the code block needs the value *and* the index in the vector. For example:
+```{r index-and-value-ex, exercise=TRUE}
+cities <- c("New York", "Paris", "London", "Tokyo", "Rio de Janeiro", "Cape Town")
+
+for (i in 1:length(cities)) {
+  print(paste(cities[i], "is on position", i, "in the cities vector."))
+}
+```
+
+#### Wrap-up: `for` loops
+
+Version 1 of the `for` loop (looping over values) is:
+ 
+ - (+) Concise
+ - (+) Easy to read
+ - (-) No access to looping index
+
+Version 2 of the `for` loop (looping over indices) is:
+
+ - (-) Harder to read and write
+ - (+) More versatile as you have access to the looping index
+
+Here we show them in code side-by-side for easy comparison:
 ```{r, eval=FALSE}
 primes <- c(2, 3, 5, 7, 11, 13)
 
 # loop version 1
-for (p in primes) {
-  print(p)
-}
+for (p in primes) {           # + Concise
+  print(p)                    # + Easy to read
+}                             # - No access to looping index
 
 # loop version 2
-for (i in 1:length(primes)) {
-  print(primes[i])
+for (i in 1:length(primes)) { # - Harder to read and write
+  print(primes[i])            # + More versatile
 }
 ```
+
+Alright, time to practice!
 
 Remember our `linkedin` vector? It's a vector that contains the number of views your LinkedIn profile had in the last seven days. The `linkedin` vector has already been defined in the editor on the right so that you can fully focus on the instructions!
 
@@ -1337,4 +1648,20 @@ rcount
 grade_code("This exercise concludes the chapter on `while` and `for` loops.")
 ```
 
+### Congratulations! You're finished!
+
 **You have finished the chapter "Loops"!**
+
+Please enter your name and then copy-and-paste the text in the box to the assignment on Blackboard.
+
+```{r, echo=FALSE}
+textInput("name", "Your name")
+verbatimTextOutput("turnin")
+```
+
+```{r, context="server"}
+output$turnin <- renderText({
+  paste0(paste(Sys.time(), input$name), "\n",
+         digest::digest(paste(Sys.time(), input$name), "md5", serialize=FALSE))
+})
+```
