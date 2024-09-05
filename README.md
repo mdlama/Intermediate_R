@@ -1,6 +1,4 @@
-<img src="https://assets.datacamp.com/production/course_672/shields/original/shield_image_course_672_20171006-212-wcz2aj?1507293613" alt="Intermediate R" width="250x" height="250x">
-
-# [DataCamp - Intermediate R](https://www.datacamp.com/courses/intermediate-r/)
+# Quarto Live modification of [DataCamp - Intermediate R](https://www.datacamp.com/courses/intermediate-r/)
 
 ## Course Description
 
@@ -10,20 +8,16 @@ The intermediate R course is the logical next stop on your journey in the R prog
 
 1) Conditionals and control flow  
 2) Loops  
-3) Functions  
-4) The apply family  
-5) Utilities  
+3) Functions
+4) *The apply family* (not included in this version)
+5) *Utilities* (not included in this version)
 
-### Prerequisites
-
-[R](https://cran.r-project.org/bin/) - R is an open source programming language and software environment for statistical computing and graphics that is supported by the R Foundation for Statistical Computing.  
-[RStudio](https://www.rstudio.com/products/rstudio/download/) - RStudio is a set of integrated tools designed to help you be more productive with R. It includes a console, syntax-highlighting editor that supports direct code execution, and a variety of robust tools for plotting, viewing history, debugging and managing your workspace.  
 
 ### Built with
 
-[R Markdown](http://rmarkdown.rstudio.com/) - R Markdown is a lightweight markup language with plain text formatting syntax. It is designed so that it can be converted to HTML and many other formats.
+[Quarto Live](https://r-wasm.github.io/quarto-live/) - WebAssembly powered code blocks and exercises for Quarto HTML documents. Quarto is the "next generation" of [R Markdown](http://rmarkdown.rstudio.com/). Quarto Live uses [WebR](https://docs.r-wasm.org/webr/latest/), which facilitates running R code directly in the browser with no need for a server.
 
-## Authors
+## Original author
 
 * [**Luka Ignjatović**](https://www.linkedin.com/in/lukaignjatovic/) - [GitHub](https://github.com/LukaIgnjatovic)
 
