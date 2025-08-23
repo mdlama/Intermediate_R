@@ -13,7 +13,7 @@ resources:
   - data
 engine: knitr
 theme: readable
-description: "Intermediate R is the next stop on your journey in mastering the R programming language. In this R training, you will learn about conditional statements, loops, and functions to power your own R scripts. Next, make your R code more efficient and readable using the apply functions. Finally, the utilities chapter gets you up to speed with regular expressions in R, data structure manipulations, and times and dates. This course will allow you to take the next step in advancing your overall knowledge and capabilities while programming in R."
+description: "Intermediate R is the next stop on your journey in mastering the R programming language. In this R training, you will learn about conditional statements, loops, and functions to power your own R scripts. Next, make your R code more efficient and readable using the apply functions. This course will allow you to take the next step in advancing your overall knowledge and capabilities while programming in R."
 ---
 
 {{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
@@ -39,10 +39,6 @@ div.callout-tip.callout-titled div.callout-note.callout-titled .callout-icon::be
   padding-bottom: 1.5em;
 }
 </style>
-
-# Intermediate R
-
-Intermediate R is the next stop on your journey in mastering the R programming language. In this R training, you will learn about conditional statements, loops, and functions to power your own R scripts. Next, make your R code more efficient and readable using the apply functions. This course will allow you to take the next step in advancing your overall knowledge and capabilities while programming in R.
 
 ## Chap. 1: Conditionals and control flow
 
@@ -2740,7 +2736,7 @@ f <- function(x) {
 
 In general, an R function may have multiple inputs (called **arguments**) and only one output.
 
-```{r, echo=FALSE, out.height="75px", out.extra="class='center'"}
+```{r, echo=FALSE, out.width="50%", out.extra="class='center'"}
 knitr::include_graphics("images/code_box.png")
 ```
 
@@ -4155,8 +4151,8 @@ gradethis::grade_this_code()
 ```{webr}
 #| exercise: toxo-ex-2
 #| solution: TRUE
-read.csv("data/chap02q32ToxoplasmaAccidents.csv") %>%
-  table() %>%
+read.csv("data/chap02q32ToxoplasmaAccidents.csv") |>
+  table() |>
   mosaicplot()
 ```
 
